@@ -1,38 +1,48 @@
 <template>
-  <div>
+  <div class="calendar">
     <div class="weeks">
-      <!-- <CalendarWeekDays :weekNr="0" /> -->
-      <div>Mo</div>
-      <div>Tu</div>
-      <div>We</div>
-      <div>Th</div>
-      <div>We</div>
-      <div>Sa</div>
+      <CalendarWeekDays
+        v-for="day in 7"
+        :key="`week-day-${day}`"
+        :weekNr="day"
+      />
     </div>
 
-    <div>
-      <div></div>
-    </div>
+    <DialogTodos />
   </div>
 </template>
 
 <script>
 import dayjs from "dayjs";
 import weekdayPlugin from "dayjs/plugin/weekday";
-// import CalendarWeekDays from "./CaledarWeekDays";
+import { mapActions } from "vuex";
+
+import CalendarWeekDays from "./CaledarWeekDays";
+import DialogTodos from "./DialogTodos.vue";
 
 dayjs.extend(weekdayPlugin);
 
 export default {
   name: "Calendar",
   components: {
-    // CalendarWeekDays,
+    CalendarWeekDays,
+    DialogTodos,
+  },
+  created() {
+    this.getTodos();
+  },
+  methods: {
+    ...mapActions("todos", ["getTodos"]),
   },
 };
 </script>
 
 <style>
+.calendar {
+  height: 100vh;
+}
 .weeks {
   display: flex;
+  height: 100%;
 }
 </style>
